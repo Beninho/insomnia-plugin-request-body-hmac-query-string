@@ -1,0 +1,10 @@
+{
+  "name": "insomnia-plugin-request-body-hmac-query-string",
+  "version": "0.0.1",
+  "description": "Insomnia template tag for HMAC signature of value or request body turn into query string, like name=value&name2=value2",
+  "insomnia": {
+    "name": "request-body-hmac-query-string",
+    "description": "Generates HMAC signatures for request bodies and values in query string"
+  },
+  "main": "main.js"
+}
