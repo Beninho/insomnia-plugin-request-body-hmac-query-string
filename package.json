@@ -1,10 +1,27 @@
 {
   "name": "insomnia-plugin-request-body-hmac-query-string",
+  "author": "Benjamin LETELLIER <letellier.benjamin@gmail.com>",
   "version": "0.0.1",
   "description": "Insomnia template tag for HMAC signature of value or request body turn into query string, like name=value&name2=value2",
   "insomnia": {
     "name": "request-body-hmac-query-string",
     "description": "Generates HMAC signatures for request bodies and values in query string"
   },
-  "main": "main.js"
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Beninho/insomnia-plugin-request-body-hmac-query-string.git"
+  },
+  "keywords": [
+    "insomnia",
+    "plugin"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Beninho/insomnia-plugin-request-body-hmac-query-string/issues"
+  },
+  "homepage": "https://github.com/Beninho/insomnia-plugin-request-body-hmac-query-string#readme"
 }
