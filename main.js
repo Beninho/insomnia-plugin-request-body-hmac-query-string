@@ -8,8 +8,15 @@ const settings = {
 };
 
 function convertToQueryString(content) {
-  let json = JSON.parse(content);
-  return Object.keys(json).map(key => key + '=' + json[key]).join('&');
+  if(content === '') {
+    return content;
+  }
+  try {
+    let json = JSON.parse(content);
+    return Object.keys(json).map(key => key + '=' + json[key]).join('&');
+  } catch (e) {
+    return content;
+  }
 }
 function hmac(content) {
   content = convertToQueryString(content);
@@ -81,24 +88,19 @@ module.exports.templateTags = [{
 
 module.exports.requestHooks = [
   context => {
-    console.log("replacementContent :"+replacementContent);
     if (context.request.getUrl().indexOf(replacementContent) !== -1) {
-      console.log("### replace URL ###");
       context.request.setUrl(replaceWithHMAC(context.request.getUrl(), context.request.getBodyText()));
     }
     if (context.request.getBodyText().indexOf(replacementContent) !== -1) {
-      console.log("### replace body ###");
       context.request.setBodyText(replaceWithHMAC(context.request.getBodyText(), context.request.getBodyText()));
     }
     context.request.getHeaders().forEach(h => {
       if (h.value.indexOf(replacementContent) !== -1) {
-        console.log("### replace header ###");
         context.request.setHeader(h.name, replaceWithHMAC(h.value, context.request.getBodyText()));
       }
     });
     context.request.getParameters().forEach(p => {
       if (p.value.indexOf(replacementContent) !== -1) {
-        console.log("### replace paramater ###");
         context.request.setParameter(p.name, replaceWithHMAC(p.value, context.request.getBodyText()));
       }
     });
