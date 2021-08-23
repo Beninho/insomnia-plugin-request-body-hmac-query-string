@@ -13,7 +13,14 @@ function convertToQueryString(content) {
   }
   try {
     let json = JSON.parse(content);
-    return Object.keys(json).map(key => key + '=' + json[key]).join('&');
+    let keys = Object.keys(json);
+    let arrayFields = [];
+    for (const key of keys) {
+      if(typeof json[key] !== 'object') {
+        arrayFields.push(key + "=" + json[key]);
+      }
+    }
+    return arrayFields.join('&');
   } catch (e) {
     return content;
   }
