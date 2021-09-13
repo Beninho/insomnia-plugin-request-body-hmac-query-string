@@ -5,6 +5,7 @@ const settings = {
   key: null,
   algorithm: null,
   encoding: null,
+  parseJson: false
 };
 
 function convertToQueryString(content) {
@@ -26,7 +27,9 @@ function convertToQueryString(content) {
   }
 }
 function hmac(content) {
-  content = convertToQueryString(content);
+  if(settings.parseJson) {
+    content = convertToQueryString(content);
+  }
   const hash = crypto.createHmac(settings.algorithm, settings.key);
   hash.update(content, 'utf8');
   return hash.digest(settings.encoding);
@@ -66,12 +69,16 @@ module.exports.templateTags = [{
       placeholder: 'HMAC Secret Key'
     },
     {
+      displayName: 'Parse body in json ?',
+      type: 'boolean',
+    },
+    {
       displayName: 'Message',
       type: 'string',
       placeholder: 'Message to hash (leave empty to use request body)'
     }
   ],
-  run(context, algorithm, encoding, key = '', value = '') {
+  run(context, algorithm, encoding, key = '', parseJson = false, value = '') {
     if (encoding !== 'hex' && encoding !== 'base64') {
       throw new Error(`Invalid encoding ${encoding}. Choices are hex, base64`);
     }
@@ -80,10 +87,11 @@ module.exports.templateTags = [{
     if (valueType !== 'string') {
       throw new Error(`Cannot hash value of type "${valueType}"`);
     }
-    
+
     settings.key = key;
     settings.algorithm = algorithm;
     settings.encoding = encoding;
+    settings.parseJson = parseJson;
     
     if (value === '') {
       return replacementContent;
